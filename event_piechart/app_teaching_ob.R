@@ -61,13 +61,11 @@ op<-function(){
 
 
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
   
-  # Application title
   titlePanel("Teaching Act Dashboard"),
   
-  # Sidebar with a slider input for number of bins 
+
   sidebarLayout(
     sidebarPanel(
       actionButton("start", "Start",icon("paper-plane"), 
@@ -98,7 +96,7 @@ ui <- fluidPage(
                  ".shiny-output-error { visibility: hidden; }",
                  ".shiny-output-error:before { visibility: hidden; }"),
                  
-      #dataTableOutput("mytable"),
+
       plotOutput('plot'),
       dataTableOutput("df")
     )
@@ -106,7 +104,6 @@ ui <- fluidPage(
    
 
 
-# Define server logic required to draw a histogram
 server <- function(input, output,session) {
   
   
@@ -144,27 +141,16 @@ server <- function(input, output,session) {
 
   output$plot<-renderPlot({
   # 
-    req(input$action1)
+    input$start
+    input$action1
     input$action2
     input$action3
     input$finish
     op<-op()
-  #   colnames(df)<-c("Behaviour","Duration")
-  #   df<-aggregate(df$Duration, by=list(event=df$Behaviour), FUN=sum)
-  #   # op<-data.frame(op)
-  #   bp<- ggplot(df, aes(x="", y=Duration, fill=Behaviour))+
-  #     geom_bar(width = 1, stat = "identity")
-  #   
-  #   pie <- bp + coord_polar("y", start=0)
-  #   pie
-  #   
-  #   
     op<-aggregate(op$Duration, by=list(event=op$Behaviour), FUN=sum)
      op<-data.frame(op)
     
-    
-#     piep<-pie(op$x,labels=op$Behaviour,col=rainbow(length(op$Behaviour)*100),
-     piep<-pie(op$x,labels=op$Behaviour,
+    piep<-pie(op$x,labels=op$Behaviour,
                main="Proportion of teaching behavior")
 
   })
@@ -181,6 +167,7 @@ server <- function(input, output,session) {
   
 }
 
-# Run the application 
+
 shinyApp(ui = ui, server = server)
+
 
